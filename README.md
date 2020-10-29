@@ -45,7 +45,6 @@ package < module < repository
 ```
 
 - [Module Example](https://golang.org/doc/code.html#Command)
-
 ```
 mkdir hello
 cd hello
@@ -62,7 +61,6 @@ hello
 ```
 
 - [Local Package](https://golang.org/doc/code.html#ImportingLocal)
-
 ```
 mkdir morestrings
 cd morestrings
@@ -74,7 +72,6 @@ hello
 ```
 
 - [Remote Package](https://golang.org/doc/code.html#ImportingRemote)
-
 ```
 go get github.com/google/go-cmp/cmp
 vi hello.go
@@ -109,10 +106,27 @@ hashex me
 hashex me
 ```
 
-- Useless World
+- [Useless World](https://github.com/golang/go/wiki/GitHubCodeLayout)
 ```
 mkdir useless
 go mod init github.com/victorskl/go-tute/useless
 vi useless.go
 go build github.com/victorskl/go-tute/useless
+
+cd ..
+
+mkdir uselessd
+cd uselessd
+go mod init github.com/victorskl/go-tute/uselessd
+go get golang.org/x/net/websocket
+go get github.com/victorskl/go-tute/useless
+tree -L 2 $GOPATH/pkg/mod/github.com/victorskl
+tree -L 2 $GOPATH/src/github.com/victorskl
+vi uselessd.go
+go install
+tree $GOPATH/bin
+which uselessd
+uselessd
+wscat -o ws://127.0.0.1 -c ws://127.0.0.1:1234/useless
+websocat --origin ws://127.0.0.1 ws://127.0.0.1:1234/useless
 ```
