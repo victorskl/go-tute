@@ -1,6 +1,6 @@
 # go-tute
 
-Let Go!
+Assorted Go tutes!
 
 - First, install:
 ```
@@ -11,6 +11,17 @@ brew upgrade go
 
 which go
 go version
+```
+
+- Optionally, set:
+```
+export GOPATH="${HOME}/go"
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+go get golang.org/x/lint/golint
+which golint
+golint -h
 ```
 
 - Second, read:
@@ -41,7 +52,7 @@ go build -o simple.exe
 
 - [Code Organization](https://golang.org/doc/code.html#Organization)
 ```
-package < module < repository
+[source.go, code.go] < package < module < repository
 ```
 
 - [Module Example](https://golang.org/doc/code.html#Command)
@@ -90,43 +101,14 @@ go test
 go help test
 ```
 
-## Real World
+## Notes
 
-- Developing a `hashex` cli
-```
-mkdir hashex
-cd hashex
-go mod init github.com/victorskl/go-tute/hashex
-vi main.go
-golint
-go install
-hashex
-hashex
-hashex me
-hashex me
-```
-
-- [Useless World](https://github.com/golang/go/wiki/GitHubCodeLayout)
-```
-mkdir useless
-go mod init github.com/victorskl/go-tute/useless
-vi useless.go
-go build github.com/victorskl/go-tute/useless
-
-cd ..
-
-mkdir uselessd
-cd uselessd
-go mod init github.com/victorskl/go-tute/uselessd
-go get golang.org/x/net/websocket
-go get github.com/victorskl/go-tute/useless
-tree -L 2 $GOPATH/pkg/mod/github.com/victorskl
-tree -L 2 $GOPATH/src/github.com/victorskl
-vi uselessd.go
-go install
-tree $GOPATH/bin
-which uselessd
-uselessd
-wscat -o ws://127.0.0.1 -c ws://127.0.0.1:1234/useless
-websocat --origin ws://127.0.0.1 ws://127.0.0.1:1234/useless
-```
+- [Go Module](https://blog.golang.org/using-go-modules) `go.mod` take care of dependencies.
+- Go codes are organised in **packages** which then arranged in a **module**. 
+- A Go module is published in a **repository**.
+- A repository can contain [multi-modules](https://github.com/golang/go/wiki/Modules#faqs--multi-module-repositories). 🙋‍♂️ _This `go-tute` is a multi-modules Go repo, for example!_
+- Go executable entrypoint bears a package name "**main**" and `func main()`.
+- Go build use parent directory name as an executable name, if `-o` flag is absent.
+- Go standard community proposes some [project structure](https://github.com/golang-standards/project-layout) and naming convention. This structure is known to be [a traditional monolith structure](https://tutorialedge.net/golang/go-project-structure-best-practices/). 
+- You can, however, arrange your Go project whichever way you like! 
+- Though, `go.mod` favours _fan-out_ multiple repositories; with each repository contain only one Go module; and `go.mod` take care of inter-dependencies between these Go modules.
